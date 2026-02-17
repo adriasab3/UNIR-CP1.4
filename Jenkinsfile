@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Get Code') {
             steps {
-                git credentialsId: 'git_user', url: 'https://github.com/adriasab3/UNIR-CP1.4.git'
+                git branch: 'develop', credentialsId: 'git_user', url: 'https://github.com/adriasab3/UNIR-CP1.4.git'
                 stash name:'code', includes:'**/*'
             }
         }
