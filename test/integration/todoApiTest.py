@@ -48,7 +48,6 @@ class TestApi(unittest.TestCase):
         #List
         url = BASE_URL+"/todos"
         response = requests.get(url)
-        print("List function response: " + response)
         print('Response List Todo:' + str(response.json()))
         self.assertEqual(
             response.status_code, 200, "Error en la petición API a {url}"
