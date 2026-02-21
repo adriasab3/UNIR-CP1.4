@@ -12,6 +12,7 @@ import subprocess
 command = "aws cloudformation describe-stacks --stack-name todo-list-aws-staging --query 'Stacks[0].Outputs[?OutputKey==`BaseUrlApi`].OutputValue' --region us-east-1 --output text"
 BASE_URL = subprocess.check_output(command, shell=True)
 BASE_URL = BASE_URL.decode('utf-8')
+BASE_URL = BASE_URL.rstrip()
 #BASE_URL = os.environ.get("BASE_URL")
 #BASE_URL = "https://m0qwfec693.execute-api.us-east-1.amazonaws.com/Prod"
 DEFAULT_TIMEOUT = 2  # in secs
