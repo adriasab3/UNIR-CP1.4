@@ -21,6 +21,7 @@ pipeline {
         }
         stage('Deploy'){
             steps {
+                unstash name:'code'
                 sh '''
                     sam validate --region us-east-1
                     sam build
@@ -30,18 +31,20 @@ pipeline {
         }
         stage('Rest Test'){
             steps {
+                unstash name:'code'
                 sh 'pytest --junitxml=result-rest.xml test/integration/todoApiTest.py'
                 junit 'result-rest.xml'
             }
         }
         stage('Promote'){
             steps {
+                unstash name:'code'
                 withCredentials([gitUsernamePassword(credentialsId: 'git_user', gitToolName: 'Default')]) {
                     sh '''
                         git fetch origin
                         git checkout master || git checkout -b master origin/master
                         git pull origin master
-                        git merge origin/develop --no-ff -m "Jenkins auto-merge develop into master"
+                        git merge develop --no-ff -m "Jenkins auto-merge develop into master"
                         git push origin master
                 '''
                 }
