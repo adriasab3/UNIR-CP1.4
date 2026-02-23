@@ -47,6 +47,7 @@ pipeline {
                         git fetch origin
                         git checkout master || git checkout -b master origin/master
                         git pull origin master
+			git config merge.ours.driver true
                         git merge develop --no-ff -m "Jenkins auto-merge develop into master"
                         git push origin master
                 '''
