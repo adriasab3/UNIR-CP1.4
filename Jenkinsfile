@@ -32,7 +32,10 @@ pipeline {
         stage('Rest Test'){
             steps {
                 unstash name:'code'
-                sh 'pytest --junitxml=result-rest.xml test/integration/todoApiTest.py'
+                sh '''#!/bin/bash
+                    export BASE_URL=$(aws cloudformation describe-stacks --stack-name todo-list-aws-staging --query 'Stacks[0].Outputs[?OutputKey==`BaseUrlApi`].OutputValue' --region us-east-1 --output text)
+                    pytest --junitxml=result-rest.xml test/integration/todoApiTest.py
+                    '''
                 junit 'result-rest.xml'
             }
         }
