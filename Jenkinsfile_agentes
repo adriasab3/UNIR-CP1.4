@@ -6,11 +6,10 @@ pipeline {
             agent {label 'principal'}
             steps {
                 sh '''
-                    whoami
-                    hostname
                     pwd
                     '''
                 git branch: 'develop', credentialsId: 'git_user', url: 'https://github.com/adriasab3/UNIR-CP1.4.git'
+                sh 'wget https://github.com/adriasab3/todo-list-aws-config/raw/refs/heads/staging/samconfig.toml -O ./samconfig.toml'
                 stash name:'code', includes:'**/*'
             }
         }
@@ -18,8 +17,6 @@ pipeline {
             agent{label 'static'}
             steps {
                 sh '''
-                    whoami
-                    hostname
                     pwd
                     '''
                 unstash name:'code'
@@ -35,8 +32,6 @@ pipeline {
             agent {label 'principal'}
             steps {
                 sh '''
-                    whoami
-                    hostname
                     pwd
                     '''
                 unstash name:'code'
@@ -51,8 +46,6 @@ pipeline {
             agent {label 'rest'}
             steps {
                 sh '''
-                    whoami
-                    hostname
                     pwd
                     '''
                 unstash name:'code'
@@ -67,13 +60,12 @@ pipeline {
             agent {label 'principal'}
             steps {
                 sh '''
-                    whoami
-                    hostname
                     pwd
                     '''
                 unstash name:'code'
                 withCredentials([gitUsernamePassword(credentialsId: 'git_user', gitToolName: 'Default')]) {
                     sh '''
+                        rm ./samconfig.toml
                         git fetch origin
                         git checkout master || git checkout -b master origin/master
                         git pull origin master
