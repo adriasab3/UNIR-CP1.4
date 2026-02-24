@@ -6,6 +6,8 @@ pipeline {
             agent {label 'principal'}
             steps {
                 sh '''
+                    whoami
+                    hostname
                     pwd
                     '''
                 git branch: 'develop', credentialsId: 'git_user', url: 'https://github.com/adriasab3/UNIR-CP1.4.git'
@@ -17,6 +19,8 @@ pipeline {
             agent{label 'static'}
             steps {
                 sh '''
+                    whoami
+                    hostname
                     pwd
                     '''
                 unstash name:'code'
@@ -32,6 +36,8 @@ pipeline {
             agent {label 'principal'}
             steps {
                 sh '''
+                    whoami
+                    hostname
                     pwd
                     '''
                 unstash name:'code'
@@ -46,6 +52,8 @@ pipeline {
             agent {label 'rest'}
             steps {
                 sh '''
+                    whoami
+                    hostname
                     pwd
                     '''
                 unstash name:'code'
@@ -60,6 +68,8 @@ pipeline {
             agent {label 'principal'}
             steps {
                 sh '''
+                    whoami
+                    hostname
                     pwd
                     '''
                 unstash name:'code'
