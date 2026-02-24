@@ -5,6 +5,11 @@ pipeline {
         stage('Get Code') {
             agent {label 'principal'}
             steps {
+                sh '''
+                    whoami
+                    hostname
+                    pwd
+                    '''
                 git branch: 'master', credentialsId: 'git_user', url: 'https://github.com/adriasab3/UNIR-CP1.4.git'
                 stash name:'code', includes:'**/*'
             }
@@ -12,6 +17,11 @@ pipeline {
         stage('Deploy'){
             agent {label 'principal'}
             steps {
+                sh '''
+                    whoami
+                    hostname
+                    pwd
+                    '''
                 unstash name:'code'
                 sh '''
                     sam validate --region us-east-1
@@ -23,6 +33,11 @@ pipeline {
         stage('Rest Test'){
             agent {label 'rest'}
             steps {
+                sh '''
+                    whoami
+                    hostname
+                    pwd
+                    '''
                 unstash name:'code'
                 sh '''#!/bin/bash
                     export BASE_URL=$(aws cloudformation describe-stacks --stack-name todo-list-aws-production --query 'Stacks[0].Outputs[?OutputKey==`BaseUrlApi`].OutputValue' --region us-east-1 --output text)
