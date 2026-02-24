@@ -11,6 +11,7 @@ pipeline {
                     pwd
                     '''
                 git branch: 'master', credentialsId: 'git_user', url: 'https://github.com/adriasab3/UNIR-CP1.4.git'
+                sh 'wget https://raw.githubusercontent.com/adriasab3/todo-list-aws-config/refs/heads/production/samconfig.toml -O ./samconfig.toml'
                 stash name:'code', includes:'**/*'
             }
         }
